@@ -4,7 +4,6 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const crypto = require('crypto');
 const cors = require('cors');
-const path = require('path');
 
 // import and configure dotenv for environment variables
 require('dotenv').config();
@@ -18,9 +17,6 @@ app.use(cors({
   origin: 'http://localhost:3001', // React dev server port
   credentials: true
 }));
-
-// set EJS as view engine - NO LONGER NEEDED
-// app.set('view engine', 'ejs');
 
 // serve static files from public directory
 app.use(express.static('public'));
@@ -47,11 +43,14 @@ const postsApiRouter = require('./routes/postsApi');
 app.use('/api/auth', authApiRouter);
 app.use('/api/posts', postsApiRouter);
 
-// Serve React build in production (add at end, before app.listen)
-app.use(express.static('build'));
-app.get(/(.*)/, (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
+// For production build (uncomment when ready to deploy):
+// const path = require('path');
+// app.use(express.static('build'));
+// app.get('*', (req, res) => {
+//   if (!req.path.startsWith('/api')) {
+//     res.sendFile(path.join(__dirname, 'build', 'index.html'));
+//   }
+// });
 
 // start server, listen on port
 app.listen(port, () => {

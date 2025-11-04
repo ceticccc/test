@@ -35,7 +35,7 @@ const PostList = ({ user }) => {
     }
 
     try {
-      const response = await fetch(`/api/posts/${postId}`), {
+      const response = await fetch(`/api/posts/${postId}`, {
         method: 'DELETE',
         credentials: 'include'
       });
