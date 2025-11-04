@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import ErrorMessage from '../Layout/ErrorMessage';
 
 const Login = ({ setUser }) => {
   const [formData, setFormData] = useState({
@@ -45,7 +46,7 @@ const Login = ({ setUser }) => {
   return (
     <div className="container">
       <h1>Sign In</h1>
-      {error && <p className="error">{error}</p>}
+      <ErrorMessage errors={[error]} />
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="user_id">User ID:</label>

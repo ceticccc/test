@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import ErrorMessage from '../Layout/ErrorMessage';
 
 const PostForm = () => {
   const [formData, setFormData] = useState({
@@ -44,16 +45,7 @@ const PostForm = () => {
   return (
     <div className="container">
       <h1>New Post</h1>
-      {errors.length > 0 && (
-        <div className="error-messages">
-          <p style={{ color: 'red', fontWeight: 'bold' }}>Please fix the following errors:</p>
-          <ul style={{ color: 'red' }}>
-            {errors.map((error, index) => (
-              <li key={index}>{error}</li>
-            ))}
-          </ul>
-        </div>
-      )}
+      <ErrorMessage errors={errors} />
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="title">Title</label>

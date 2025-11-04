@@ -1,22 +1,14 @@
-// import and configure dotenv for environment variables
 require('dotenv').config();
 
 // import modules
 const express = require('express');
 const session = require('express-session');
-const bodyParser = require('body-parser');
 const crypto = require('crypto');
-const cors = require('cors');
+const path = require('path');
 
 // create Express application
 const app = express();
 const port = 3000;
-
-// Add CORS for React dev server (before other middleware)
-app.use(cors({
-  origin: 'http://localhost:3001', // React dev server port
-  credentials: true
-}));
 
 // serve static files from public directory
 app.use(express.static('public'));
@@ -24,7 +16,7 @@ app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 // parse JSON bodies
 app.use(express.json());
-app.use(bodyParser.json());
+
 
 // configure session middleware with 
 // secret from env or generate random one
@@ -43,14 +35,13 @@ const postsApiRouter = require('./routes/postsApi');
 app.use('/api/auth', authApiRouter);
 app.use('/api/posts', postsApiRouter);
 
-// For production build (uncomment when ready to deploy):
-// const path = require('path');
-// app.use(express.static(path.join(__dirname, 'client', 'build')));
-// app.get('*', (req, res) => {
-//   if (!req.path.startsWith('/api')) {
-//     res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
-//   }
-// });
+// For production build:
+app.use(express.static(path.join(__dirname, 'client', 'build')));
+app.get(/\/((?!api).)*$/, (req, res) => {
+  if (!req.path.startsWith('/api')) {
+    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+  }
+});
 
 // start server, listen on port
 app.listen(port, () => {
