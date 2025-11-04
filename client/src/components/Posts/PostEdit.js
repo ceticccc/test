@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 
 const PostEdit = ({ user }) => {
@@ -12,11 +12,7 @@ const PostEdit = ({ user }) => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchPost();
-  }, [id]);
-
-  const fetchPost = async () => {
+  const fetchPost = useCallback(async () => {
     try {
       const response = await fetch(`/api/posts/${id}`, {
         credentials: 'include'
@@ -43,7 +39,11 @@ const PostEdit = ({ user }) => {
     } finally {
       setFetchingPost(false);
     }
-  };
+  }, [id, user, navigate]);
+
+  useEffect(() => {
+    fetchPost();
+  }, [fetchPost]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

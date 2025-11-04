@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 
 const PostView = ({ user }) => {
@@ -8,11 +8,7 @@ const PostView = ({ user }) => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchPost();
-  }, [id]);
-
-  const fetchPost = async () => {
+  const fetchPost = useCallback(async () => {
     try {
       const response = await fetch(`/api/posts/${id}`, {
         credentials: 'include'
@@ -29,7 +25,11 @@ const PostView = ({ user }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [id]);
+
+  useEffect(() => {
+    fetchPost();
+  }, [fetchPost]);
 
   const handleDelete = async () => {
     if (!window.confirm('Are you sure you want to delete this post?')) {

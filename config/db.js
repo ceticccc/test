@@ -1,6 +1,5 @@
-// import pg library and dotenv
+// import pg library
 const Pool = require('pg').Pool;
-require('dotenv').config();
 
 // create new pool with database credentials from environment
 const pool = new Pool({

@@ -16,24 +16,6 @@ CREATE TABLE blogs (
     date_created TIMESTAMP NOT NULL
 );
 
-DROP TABLE IF EXISTS blogs;
-DROP TABLE IF EXISTS users;
-
-CREATE TABLE users (
-    user_id VARCHAR(255) PRIMARY KEY,
-    password VARCHAR(255) NOT NULL,
-    name VARCHAR(255) NOT NULL
-);
-
-CREATE TABLE blogs (
-    blog_id SERIAL PRIMARY KEY,
-    creator_name VARCHAR(255) NOT NULL,
-    creator_user_id VARCHAR(255) REFERENCES users(user_id),
-    title VARCHAR(255) NOT NULL,
-    body TEXT NOT NULL,
-    date_created TIMESTAMP NOT NULL
-);
-
 -- insert test users with bcrypt passwords (hash of 'password123')
 -- to test: use user_id 'user1', 'user2', or 'user3' 
 -- with password 'password123'

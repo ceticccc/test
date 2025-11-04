@@ -1,12 +1,12 @@
+// import and configure dotenv for environment variables
+require('dotenv').config();
+
 // import modules
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const crypto = require('crypto');
 const cors = require('cors');
-
-// import and configure dotenv for environment variables
-require('dotenv').config();
 
 // create Express application
 const app = express();
@@ -45,10 +45,10 @@ app.use('/api/posts', postsApiRouter);
 
 // For production build (uncomment when ready to deploy):
 // const path = require('path');
-// app.use(express.static('build'));
+// app.use(express.static(path.join(__dirname, 'client', 'build')));
 // app.get('*', (req, res) => {
 //   if (!req.path.startsWith('/api')) {
-//     res.sendFile(path.join(__dirname, 'build', 'index.html'));
+//     res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
 //   }
 // });
 

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 
 const MyProfile = ({ user }) => {
@@ -6,11 +6,7 @@ const MyProfile = ({ user }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    fetchUserPosts();
-  }, [user]);
-
-  const fetchUserPosts = async () => {
+  const fetchUserPosts = useCallback(async () => {
     try {
       const response = await fetch(`/api/posts/user/${user.id}`, {
         credentials: 'include'
@@ -27,7 +23,11 @@ const MyProfile = ({ user }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user]);
+
+  useEffect(() => {
+    fetchUserPosts();
+  }, [fetchUserPosts]);
 
   const handleDelete = async (postId) => {
     if (!window.confirm('Are you sure you want to delete this post?')) {
